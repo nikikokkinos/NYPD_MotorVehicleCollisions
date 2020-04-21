@@ -7,9 +7,10 @@ var map = new mapboxgl.Map({
   center: [-73.915383,40.726238],
 })
 
-hoveredCurrentId = null
+hoveredId = null
 
-var markerHeight = 20, markerRadius = 10, linearOffset = 25;
+var markerHeight = 20, markerRadius = 10, linearOffset = 25
+
 var popupOffsets = {
   'top': [0, 0],
   'top-left': [0,0],
@@ -27,6 +28,8 @@ var crashPopup = new mapboxgl.Popup({
   closeOnClick: false
 })
 
+var filterGroup = document.getElementById('filter-group');
+
 map.on('load', function() {
 
   map.addSource('crashes', {
@@ -35,29 +38,63 @@ map.on('load', function() {
     'generateId': true
   })
 
-  // Add a circle layer with a vector source.
-  map.addLayer({
-    'id': 'crashLayer',
-    'source': 'crashes',
-    'type': 'circle',
-    'paint': {
-      'circle-radius': [
-        'case',
-        ['boolean', ['feature-state', 'hover'], false],
-        11,
-        7 ],
-      'circle-opacity': [
-        'case',
-        ['boolean', ['feature-state', 'hover'], false],
-        .5,
-        1 ],
-      'circle-color': 'white',
-    },
-  })
+  // map.getSource('crashes')._data.features.forEach(function(feature) {
+  //   var numInjured = feature.properties.number_of_persons_injured;
+  //   var crashLayer = 'poi-' + numInjured;
+  //
+  //   if (!map.getLayer(crashLayer)) {
+    map.addLayer({
+      'id': 'crashLayer',
+      'source': 'crashes',
+      'type': 'circle',
+      'paint': {
+        'circle-radius': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          11,
+          7 ],
+        'circle-opacity': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          .5,
+          1 ],
+        'circle-color': 'white',
+      }
+    })
+
+  // Add checkbox and label elements for the layer.
+  //   var input = document.createElement('input');
+  //   input.type = 'checkbox';
+  //   input.id = crashLayer;
+  //   input.checked = true;
+  //   filterGroup.appendChild(input);
+  //
+  //   var label = document.createElement('label');
+  //   label.setAttribute('for', crashLayer);
+  //   label.textContent = numInjured;
+  //   filterGroup.appendChild(label);
+  //
+  //   // When the checkbox changes, update the visibility of the layer.
+  //     input.addEventListener('change', function(e) {
+  //         map.setLayoutProperty(
+  //           crashLayer,
+  //           'visibility',
+  //           e.target.checked ? 'visible' : 'none'
+  //         );
+  //     });
+  //   }
+  // });
 
   map.on('click', 'crashLayer', function (e) {
 
-    var popupHTML = 'Crash Date' + ' ' +  e.features[0].properties.crash_date + '<br >' + '# Persons Killed' + ' ' + e.features[0].properties.number_of_persons_killed
+    var crashDate = e.features[0].properties.crash_date
+
+    var cdSliced = crashDate.slice(0, 10)
+
+    var popupHTML = 'Crash Date' + ' ' +
+    cdSliced.bold() + '<br >' + '# Persons Killed' + ' ' +
+    e.features[0].properties.number_of_persons_killed.bold() + '<br >' + '# Persons Injured' + ' ' +
+    e.features[0].properties.number_of_persons_injured.bold()
 
     crashPopup
     .setLngLat(e.lngLat)
@@ -69,15 +106,11 @@ map.on('load', function() {
     map.getCanvas().style.cursor = 'pointer'
 
     if (e.features.length > 0) {
-      if (hoveredCurrentId) {
-      map.setFeatureState(
-      { source: 'crashes', id: hoveredCurrentId },
-      { hover: false })
+      if (hoveredId) {
+        map.setFeatureState({ source: 'crashes', id: hoveredId }, { hover: false })
       }
-      hoveredCurrentId = e.features[0].id;
-      map.setFeatureState(
-      { source: 'crashes', id: hoveredCurrentId },
-      { hover: true })
+      hoveredId = e.features[0].id
+        map.setFeatureState({ source: 'crashes', id: hoveredId }, { hover: true })
       }
     })
 
@@ -85,11 +118,18 @@ map.on('load', function() {
     map.getCanvas().style.cursor = ''
     crashPopup.remove()
 
-    if (hoveredCurrentId) {
-      map.setFeatureState(
-      { source: 'crashes', id: hoveredCurrentId },
-      { hover: false })
+    if (hoveredId) {
+        map.setFeatureState({ source: 'crashes', id: hoveredId }, { hover: false })
       }
-      hoveredCurrentId = null
+      hoveredId = null
     })
+
+  // var dropDown = $('.dropdown')
+  //
+  // dropDown.on('mousemove', (e) => {
+  //   if ($('.2013').checked) {
+  //     crashDate
+  //   }
+  // })
+
 })

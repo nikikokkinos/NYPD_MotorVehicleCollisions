@@ -4,3 +4,93 @@
   bottom: 0;
   width: 100%;
 }
+
+/* Dropdown Button */
+.dropDownButton {
+  background-color: #f5c853;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropDownButton {background-color: #3e8e41;}
+
+/* .filter-group {
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+font-weight: 600;
+position: absolute;
+top: 10px;
+right: 10px;
+z-index: 1;
+border-radius: 3px;
+width: 120px;
+color: #fff;
+} */
+
+/* .filter-group input[type='checkbox']:first-child + label {
+border-radius: 3px 3px 0 0;
+}
+
+.filter-group label:last-child {
+border-radius: 0 0 3px 3px;
+border: none;
+}
+
+.filter-group input[type='checkbox'] {
+display: none;
+}
+
+.filter-group input[type='checkbox'] + label {
+background-color: #3386c0;
+display: block;
+cursor: pointer;
+padding: 10px;
+border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.filter-group input[type='checkbox'] + label {
+background-color: #3386c0;
+text-transform: capitalize;
+}
+
+.filter-group input[type='checkbox'] + label:hover,
+.filter-group input[type='checkbox']:checked + label {
+background-color: #4ea0da;
+}
+
+.filter-group input[type='checkbox']:checked + label:before {
+content: '✔';
+margin-right: 5px;
+} */
