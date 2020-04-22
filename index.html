@@ -28,29 +28,29 @@
   <div id='map'></div>
 
   <div id='console'>
-    <h1>Car Crashes in NYC</h1>
-    <p>NYPD Data: <a href='https://data.cityofnewyork.us/resource/h9gi-nx95.geojson'>Motor Vehicle Collisions - Crashes</a></p>
+    <center> <h1>Car Crashes in NYC</h1> </center>
+    <p>NYPD Data: <br > <a href='https://data.cityofnewyork.us/resource/h9gi-nx95.geojson'>Motor Vehicle Collisions - Crashes</a></p>
 
-    <div class='session' id='sliderbar'>
+    <!-- <div class='session' id='sliderbar'>
       <h2>Hour: <label id='active-hour'>12PM</label> </h2>
       <input id='slider' class='row' type='range' min='0' max='23' step='1' value='12'/>
-    </div>
+    </div> -->
 
     <div class='session'>
-      <h2>Victim Type</h2>
+      <h2>Borough</h2>
       <div class='row' id='filters'>
         <input id='all' type='radio' name='toggle' value='all' checked='checked'>
-        <label for='all'>All</label>
+        <label for='all'>All</label> <br >
         <input id='bx' type='radio' name='toggle' value='bx'>
-        <label for='bx'>Bx</label>
+        <label for='bx'>Bronx</label> <br >
         <input id='qns' type='radio' name='toggle' value='qns'>
-        <label for='qns'>Qns</label>
+        <label for='qns'>Queens</label> <br >
         <input id='bk' type='radio' name='toggle' value='bk'>
-        <label for='bk'>Bk</label>
+        <label for='bk'>Brooklyn</label> <br >
         <input id='mn' type='radio' name='toggle' value='mn'>
-        <label for='mn'>Mn</label>
+        <label for='mn'>Manhattan</label> <br >
         <input id='si' type='radio' name='toggle' value='si'>
-        <label for='si'>Si</label>
+        <label for='si'>Staten Island</label>
       </div>
     </div>
 

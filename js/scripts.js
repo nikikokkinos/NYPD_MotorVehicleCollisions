@@ -28,8 +28,6 @@ var crashPopup = new mapboxgl.Popup({
   closeOnClick: false
 })
 
-var filterGroup = document.getElementById('filter-group');
-
 map.on('load', function() {
 
   var filterBorough = ['!=', ['get', 'borough'], 'placeholder']
@@ -45,17 +43,18 @@ map.on('load', function() {
     'id': 'crashLayer',
     'source': 'crashes',
     'type': 'circle',
+    // 'filter': ['>=', ['get', 'crash_date'], '2019-01-01T00:00:00.000'],
     'paint': {
       'circle-radius':
       [
         'match',
         ['get', 'number_of_persons_injured'],
         '0', 1,
-        '1', 5,
-        '2', 7,
-        '3', 9,
-        '4', 11,
-        '5', 13,
+        '1', 3,
+        '2', 5,
+        '3', 7,
+        '4', 9,
+        '5', 11,
         /* other */ 15
       ],
       'circle-opacity':
@@ -65,7 +64,14 @@ map.on('load', function() {
           .5,
           1
         ],
-      'circle-color': 'white',
+      'circle-color':
+      [
+        'match',
+        ['get', 'number_of_persons_killed'],
+        '0', '#ffffff',
+        '1', '#fc0303',
+        /* other */ '#fc0303'
+      ],
     }
   })
 
@@ -87,20 +93,20 @@ map.on('load', function() {
     // update the map filter
     if (borough === 'all') {
       filterBorough = ['!=', ['get', 'borough'], 'placeholder'];
-    } else if (borough === 'BRONX') {
+    } else if (borough === 'bx') {
       filterBorough = ['match', ['get', 'borough'], ['BRONX'], true, false];
-    } else if (borough === 'BROOKLYN') {
+    } else if (borough === 'bk') {
       filterBorough = ['match', ['get', 'borough'], ['BROOKLYN'], true, false];
-    } else if (borough === 'QUEENS') {
+    } else if (borough === 'qns') {
       filterBorough = ['match', ['get', 'borough'], ['QUEENS'], true, false];
-    } else if (borough === 'MANHATTAN') {
+    } else if (borough === 'mn') {
       filterBorough = ['match', ['get', 'borough'], ['MANHATTAN'], true, false];
-    } else if (borough === 'STATEN ISLAND') {
+    } else if (borough === 'si') {
       filterBorough = ['match', ['get', 'borough'], ['STATEN ISLAND'], true, false];
     } else {
       console.log('error');
     }
-    map.setFilter('crashLayer', ['all', filterBorough]);
+    map.setFilter('crashLayer', ['all', filterBorough])
   })
 
   map.on('click', 'crashLayer', function (e) {
