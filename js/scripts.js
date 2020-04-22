@@ -32,58 +32,76 @@ var filterGroup = document.getElementById('filter-group');
 
 map.on('load', function() {
 
+  var filterBorough = ['!=', ['get', 'borough'], 'placeholder']
+
+
   map.addSource('crashes', {
     'type': 'geojson',
     'data': 'https://data.cityofnewyork.us/resource/h9gi-nx95.geojson',
     'generateId': true
   })
 
-  // map.getSource('crashes')._data.features.forEach(function(feature) {
-  //   var numInjured = feature.properties.number_of_persons_injured;
-  //   var crashLayer = 'poi-' + numInjured;
-  //
-  //   if (!map.getLayer(crashLayer)) {
-    map.addLayer({
-      'id': 'crashLayer',
-      'source': 'crashes',
-      'type': 'circle',
-      'paint': {
-        'circle-radius': [
-          'case',
-          ['boolean', ['feature-state', 'hover'], false],
-          11,
-          7 ],
-        'circle-opacity': [
+  map.addLayer({
+    'id': 'crashLayer',
+    'source': 'crashes',
+    'type': 'circle',
+    'paint': {
+      'circle-radius':
+      [
+        'match',
+        ['get', 'number_of_persons_injured'],
+        '0', 1,
+        '1', 5,
+        '2', 7,
+        '3', 9,
+        '4', 11,
+        '5', 13,
+        /* other */ 15
+      ],
+      'circle-opacity':
+        [
           'case',
           ['boolean', ['feature-state', 'hover'], false],
           .5,
-          1 ],
-        'circle-color': 'white',
-      }
-    })
+          1
+        ],
+      'circle-color': 'white',
+    }
+  })
 
-  // Add checkbox and label elements for the layer.
-  //   var input = document.createElement('input');
-  //   input.type = 'checkbox';
-  //   input.id = crashLayer;
-  //   input.checked = true;
-  //   filterGroup.appendChild(input);
+  // document.getElementById('slider').addEventListener('input', function(e) {
+  //   var hour = parseInt(e.target.value);
+  //   // update the map
+  //   map.setFilter('crashLayer', ['==', ['number', ['get', 'crash_date']], hour]);
   //
-  //   var label = document.createElement('label');
-  //   label.setAttribute('for', crashLayer);
-  //   label.textContent = numInjured;
-  //   filterGroup.appendChild(label);
+  //   // converting 0-23 hour to AMPM format
+  //   var ampm = hour >= 12 ? 'PM' : 'AM';
+  //   var hour12 = hour % 12 ? hour % 12 : 12;
   //
-  //   // When the checkbox changes, update the visibility of the layer.
-  //     input.addEventListener('change', function(e) {
-  //         map.setLayoutProperty(
-  //           crashLayer,
-  //           'visibility',
-  //           e.target.checked ? 'visible' : 'none'
-  //         );
-  //     });
-  //   }
-  // });
+  //   // update text in the UI
+  //   document.getElementById('active-hour').innerText = hour12 + ampm;
+  // })
+
+  document.getElementById('filters').addEventListener('change', function(e) {
+    var borough = e.target.value;
+    // update the map filter
+    if (borough === 'all') {
+      filterBorough = ['!=', ['get', 'borough'], 'placeholder'];
+    } else if (borough === 'BRONX') {
+      filterBorough = ['match', ['get', 'borough'], ['BRONX'], true, false];
+    } else if (borough === 'BROOKLYN') {
+      filterBorough = ['match', ['get', 'borough'], ['BROOKLYN'], true, false];
+    } else if (borough === 'QUEENS') {
+      filterBorough = ['match', ['get', 'borough'], ['QUEENS'], true, false];
+    } else if (borough === 'MANHATTAN') {
+      filterBorough = ['match', ['get', 'borough'], ['MANHATTAN'], true, false];
+    } else if (borough === 'STATEN ISLAND') {
+      filterBorough = ['match', ['get', 'borough'], ['STATEN ISLAND'], true, false];
+    } else {
+      console.log('error');
+    }
+    map.setFilter('crashLayer', ['all', filterBorough]);
+  })
 
   map.on('click', 'crashLayer', function (e) {
 
@@ -123,13 +141,5 @@ map.on('load', function() {
       }
       hoveredId = null
     })
-
-  // var dropDown = $('.dropdown')
-  //
-  // dropDown.on('mousemove', (e) => {
-  //   if ($('.2013').checked) {
-  //     crashDate
-  //   }
-  // })
 
 })

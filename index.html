@@ -3,7 +3,7 @@
 
 <head>
   <meta charset='utf-8' />
-  <title>Live Car Crash Map</title>
+  <title>NYC Crash Map</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
   <!-- Mapbox GL JS script & CSS -->
@@ -27,19 +27,34 @@
 
   <div id='map'></div>
 
-  <!-- <div class="dropdown">
-    <button class="dropDownButton"> <strong> Year </strong> </button>
-    <div class="dropdown-content">
-      <input type="radio" id="2013"> 2013<br>
-      <input type="radio" id="2016"> 2016<br>
-      <input type="radio" id="2019"> 2019<br>
-      <a class='2013' href="#">2013</a>
-      <a class='2016' href="#">2016</a>
-      <a class='2019' href="#">2019</a> -->
-    <!-- </div>
-  </div> -->
+  <div id='console'>
+    <h1>Car Crashes in NYC</h1>
+    <p>NYPD Data: <a href='https://data.cityofnewyork.us/resource/h9gi-nx95.geojson'>Motor Vehicle Collisions - Crashes</a></p>
 
-  <!-- <nav id="filter-group" class="filter-group"></nav> -->
+    <div class='session' id='sliderbar'>
+      <h2>Hour: <label id='active-hour'>12PM</label> </h2>
+      <input id='slider' class='row' type='range' min='0' max='23' step='1' value='12'/>
+    </div>
+
+    <div class='session'>
+      <h2>Victim Type</h2>
+      <div class='row' id='filters'>
+        <input id='all' type='radio' name='toggle' value='all' checked='checked'>
+        <label for='all'>All</label>
+        <input id='bx' type='radio' name='toggle' value='bx'>
+        <label for='bx'>Bx</label>
+        <input id='qns' type='radio' name='toggle' value='qns'>
+        <label for='qns'>Qns</label>
+        <input id='bk' type='radio' name='toggle' value='bk'>
+        <label for='bk'>Bk</label>
+        <input id='mn' type='radio' name='toggle' value='mn'>
+        <label for='mn'>Mn</label>
+        <input id='si' type='radio' name='toggle' value='si'>
+        <label for='si'>Si</label>
+      </div>
+    </div>
+
+  </div>
 
 </body>
 
